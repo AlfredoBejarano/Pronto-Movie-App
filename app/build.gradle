@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -13,6 +14,10 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField "String", "API_KEY", theMovieDBApiKey
+        buildConfigField "String", "BASE_URL", theMovieDBBaseURL
+        buildConfigField "String", "POSTER_BASE_URL", theMovieDBImageBaseURl
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -23,14 +28,66 @@ android {
         }
     }
 
+    viewBinding.enabled = true
+    dataBinding.enabled = true
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.core:core-ktx:1.3.1'
+
+    // Fragment KTX
+    implementation "androidx.fragment:fragment-ktx:1.2.5"
+
+    // LiveData KTX
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+
+    // ViewModel KTX
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+
+    // Navigation KTX
+    implementation "androidx.navigation:navigation-ui-ktx:2.3.0"
+    implementation "androidx.navigation:navigation-runtime-ktx:2.3.0"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.3.0"
+
+    // Room
+    implementation 'androidx.room:room-runtime:2.2.5'
+    kapt 'androidx.room:room-compiler:2.2.5'
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.8.1'
+
+    // Kotlin Coroutines Android
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0"
+
+    // Nav component
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
+
+    // ConstraintLayout
+    implementation "androidx.constraintlayout:constraintlayout:2.0.0"
+
+    // Dagger
+    kapt 'com.google.dagger:dagger-compiler:2.28'
+    implementation 'com.google.dagger:dagger:2.28'
+
+    // Dagger Android
+    kapt 'com.google.dagger:dagger-android-processor:2.25.2'
+    implementation 'com.google.dagger:dagger-android:2.25.2'
+    implementation 'com.google.dagger:dagger-android-support:2.25.2'
+
     testImplementation 'junit:junit:4.12'
+
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
