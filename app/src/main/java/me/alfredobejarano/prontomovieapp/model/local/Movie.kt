@@ -16,5 +16,7 @@ data class Movie(
     val id: Int = 0,
     val title: String = "",
     val poster: String = "",
+    @ColumnInfo(name = "is_adult")
+    val isAdult: Boolean = false,
     val popularity: Double = 0.0
 )
