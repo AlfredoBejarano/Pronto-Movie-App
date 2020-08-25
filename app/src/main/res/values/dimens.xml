@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="movie_item_poster_height">194dp</dimen>
+    <dimen name="movie_item_margin_horizontal">16dp</dimen>
+    <dimen name="movie_item_icon_margin">8dp</dimen>
+    <dimen name="movie_item_title_margin_top">24dp</dimen>
+</resources>
