@@ -15,7 +15,6 @@ data class Movie(
     @PrimaryKey(autoGenerate = false)
     val id: Int = 0,
     val title: String = "",
-    val genres: String = "",
     val poster: String = "",
     val popularity: Double = 0.0
 )
