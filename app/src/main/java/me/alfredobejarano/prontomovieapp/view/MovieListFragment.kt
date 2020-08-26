@@ -15,6 +15,7 @@ import me.alfredobejarano.prontomovieapp.databinding.FragmentMovieListBinding
 import me.alfredobejarano.prontomovieapp.injection.ViewModelFactory
 import me.alfredobejarano.prontomovieapp.model.local.Movie
 import me.alfredobejarano.prontomovieapp.utils.EventManager
+import me.alfredobejarano.prontomovieapp.utils.EventManager.requestNextPageLiveData
 import me.alfredobejarano.prontomovieapp.utils.viewBinding
 import me.alfredobejarano.prontomovieapp.view.adapter.MovieListAdapter
 import me.alfredobejarano.prontomovieapp.view.adapter.MovieListAdapter.MovieViewHolder
@@ -41,13 +42,18 @@ class MovieListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = binding.run {
         super.onViewCreated(view, savedInstanceState)
+
         movieListRecyclerView.layoutManager =
             GridLayoutManager(requireContext(), MOVIE_LIST_GRID_SPAN)
         movieListSwipeRefreshLayout.setOnRefreshListener { getMovies() }
+
         viewModel.movieListLiveData.observe(viewLifecycleOwner, Observer {
             it?.run { updateMovieList(binding.movieListRecyclerView.adapter, this) }
         })
-        updateListJob = getMovies()
+
+        requestNextPageLiveData.observe(viewLifecycleOwner, Observer { getMovies(true) })
+
+        getMovies()
     }
 
     private fun updateMovieList(adapter: RecyclerView.Adapter<*>?, newMovies: List<Movie>) {
@@ -78,7 +84,9 @@ class MovieListFragment : Fragment() {
             movie
         )
 
-    private fun getMovies() = viewModel.getMovieList()
+    private fun getMovies(nextPage: Boolean = false) {
+        updateListJob = viewModel.getMovieList(nextPage = nextPage)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

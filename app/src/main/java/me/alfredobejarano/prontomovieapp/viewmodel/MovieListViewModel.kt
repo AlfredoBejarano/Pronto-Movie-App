@@ -24,10 +24,16 @@ class MovieListViewModel @Inject constructor(
     private val _movieListLiveData = MutableLiveData<List<Movie>>()
     val movieListLiveData = _movieListLiveData as LiveData<List<Movie>>
 
-    fun getMovieList(includeAdultMovies: Boolean = false) = viewModelScope.launch(IO) {
-        movies = getMoviesListUseCase.getMovieList(includeAdultMovies)
-        _movieListLiveData.postValue(movies.toList())
-    }
+    fun getMovieList(includeAdultMovies: Boolean = false, nextPage: Boolean = false) =
+        viewModelScope.launch(IO) {
+            val newMovieList = getMoviesListUseCase.getMovieList(includeAdultMovies, nextPage)
+            movies = if (nextPage) {
+                movies.toMutableList().apply { addAll(newMovieList) }
+            } else {
+                newMovieList
+            }
+            _movieListLiveData.postValue(movies)
+        }
 
     fun reportFavoriteMovie(movie: Movie) = liveData(IO) {
         emit(updateMovieUseCase.updateMovie(movie))

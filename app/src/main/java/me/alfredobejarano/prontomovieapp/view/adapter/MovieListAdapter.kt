@@ -1,8 +1,9 @@
 package me.alfredobejarano.prontomovieapp.view.adapter
 
+import android.R.anim.fade_in
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
+import android.view.animation.AnimationUtils.loadAnimation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.Dispatchers.IO
@@ -32,14 +33,14 @@ class MovieListAdapter(
     )
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) =
-        holder.bind(position, movies[position])
+        holder.bind(position, movies[position], itemCount - 1)
 
     fun updateMovies(newMovies: List<Movie>) = GlobalScope.launch(IO) {
         val callback = MovieDiffCallback(movies, newMovies)
         val result = DiffUtil.calculateDiff(callback)
         launch(Main) {
             result.dispatchUpdatesTo(this@MovieListAdapter)
-            movies = newMovies.toList()
+            movies = newMovies
         }
     }
 
@@ -65,12 +66,13 @@ class MovieListAdapter(
         private val binding: ItemMovieBinding,
         private val onMovieFavoriteClicked: (Int, Movie) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(position: Int, item: Movie) = binding.run {
+        fun bind(position: Int, item: Movie, maxItems: Int) = binding.run {
             movie = item
             imageViewMovieFavorite.setOnClickListener {
                 onMovieFavoriteClicked(position, item.apply { isFavorite = !isFavorite })
             }
-            binding.root.startAnimation(AnimationUtils.loadAnimation(itemView.context, android.R.anim.fade_in))
+            binding.root.startAnimation(loadAnimation(itemView.context, fade_in))
+            if (position == maxItems) EventManager.requestNextPage()
         }
 
         fun updateIcon(movie: Movie) = binding.imageViewMovieFavorite.run {
@@ -81,7 +83,7 @@ class MovieListAdapter(
                     ic_favorite_border_black_24dp
                 }
             )
-            startAnimation(AnimationUtils.loadAnimation(itemView.context, animation_pop))
+            startAnimation(loadAnimation(itemView.context, animation_pop))
         }
     }
 }

@@ -1,6 +1,7 @@
 package me.alfredobejarano.prontomovieapp.repository
 
 import me.alfredobejarano.prontomovieapp.datasource.local.CacheManager
+import me.alfredobejarano.prontomovieapp.datasource.local.CacheManager.Companion.NO_MAX_PAGES
 import me.alfredobejarano.prontomovieapp.datasource.local.MovieDao
 import me.alfredobejarano.prontomovieapp.datasource.remote.TheMoviesDbApiService
 import me.alfredobejarano.prontomovieapp.model.MovieListResultObjectToMovieMapper
@@ -16,8 +17,16 @@ class MovieRepository @Inject constructor(
     private val remoteDataSource: TheMoviesDbApiService,
     private val mapper: MovieListResultObjectToMovieMapper
 ) {
-    private suspend fun getRemoteMovies() =
-        remoteDataSource.getMovies().results?.map(mapper::map) ?: emptyList()
+    private var page = cacheDataSource.getCurrentPage()
+    private var maxPages = cacheDataSource.getMaxPages()
+
+    private suspend fun getRemoteMovies() = remoteDataSource.getMovies(page).let {
+        maxPages = it.total_pages ?: NO_MAX_PAGES
+        page = (it.page ?: 1) + 1
+        cacheDataSource.updatePagination(maxPages, page)
+        it.results?.map(mapper::map)?.also { movies -> cacheRemoteMovies(movies) } ?: emptyList()
+    }
+
 
     private suspend fun getLocalMovies(includeAdultMovies: Boolean = false) =
         localDataSource.readAll(includeAdultMovies)
@@ -27,12 +36,11 @@ class MovieRepository @Inject constructor(
         cacheDataSource.createMovieCache()
     }
 
-    suspend fun getMovies(includeAdultMovies: Boolean = false) =
-        if (cacheDataSource.isMovieCacheValid()) {
-            getLocalMovies(includeAdultMovies)
-        } else {
-            getRemoteMovies().also { remoteResult -> cacheRemoteMovies(remoteResult) }
-        }
+    suspend fun getMovies(includeAdultMovies: Boolean = false, nextPage: Boolean = false) = when {
+        nextPage -> getRemoteMovies()
+        cacheDataSource.isMovieCacheValid() -> getLocalMovies(includeAdultMovies)
+        else -> getRemoteMovies()
+    }
 
     suspend fun updateMovie(movie: Movie) = localDataSource.createOrUpdate(movie)
 }

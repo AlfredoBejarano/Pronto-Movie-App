@@ -14,6 +14,7 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField "int", "PAGE_SIZE", theMovieDbPageSize
         buildConfigField "String", "API_KEY", theMovieDBApiKey
         buildConfigField "String", "BASE_URL", theMovieDBBaseURL
         buildConfigField "String", "POSTER_BASE_URL", theMovieDBImageBaseURl
