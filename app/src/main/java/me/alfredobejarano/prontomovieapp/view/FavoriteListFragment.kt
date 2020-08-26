@@ -39,11 +39,14 @@ class FavoriteListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.favoritesList.layoutManager = LinearLayoutManager(requireContext())
+        observeListChanges()
         getFavorites()
     }
 
-    private fun getFavorites(): Unit =
-        viewModel.getFavorites().observe(viewLifecycleOwner, Observer {
+    private fun getFavorites() = viewModel.getFavorites()
+
+    private fun observeListChanges() =
+        viewModel.movieListLiveData.observe(viewLifecycleOwner, Observer {
             if (it.isNullOrEmpty()) {
                 binding.favoritesList.visibility = View.GONE
                 binding.emptyListMessage.visibility = View.VISIBLE

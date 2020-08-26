@@ -15,22 +15,21 @@ import me.alfredobejarano.prontomovieapp.R.drawable.ic_favorite_black_24dp
 import me.alfredobejarano.prontomovieapp.R.drawable.ic_favorite_border_black_24dp
 import me.alfredobejarano.prontomovieapp.databinding.ItemMovieBinding
 import me.alfredobejarano.prontomovieapp.model.local.Movie
-import me.alfredobejarano.prontomovieapp.utils.EventManager
 
 /**
  * MovieListAdapter
  */
 class MovieListAdapter(
     private var movies: List<Movie>,
-    private val onLastItem: () -> Unit = { EventManager.requestNextPage() },
+    private val onLastItem: () -> Unit = {},
     private val onMovieFavoriteClicked: (Int, Movie) -> Unit
 ) : RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>() {
 
     override fun getItemCount() = movies.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MovieViewHolder(
-        ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false),
         onLastItem,
+        ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false),
         onMovieFavoriteClicked
     )
 
@@ -65,8 +64,8 @@ class MovieListAdapter(
     }
 
     class MovieViewHolder(
-        private val binding: ItemMovieBinding,
         private val onLastItem: () -> Unit,
+        private val binding: ItemMovieBinding,
         private val onMovieFavoriteClicked: (Int, Movie) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int, item: Movie, maxItems: Int) = binding.run {

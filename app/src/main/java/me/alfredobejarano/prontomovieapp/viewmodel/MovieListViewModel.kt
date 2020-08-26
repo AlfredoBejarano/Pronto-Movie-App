@@ -46,9 +46,9 @@ class MovieListViewModel @Inject constructor(
         showLoading(false)
     }
 
-    fun getFavorites() = liveData(IO) {
+    fun getFavorites() = viewModelScope.launch(IO) {
         showLoading(true)
-        emit(fetchFavoritesUseCase.fetchFavorites())
+        _movieListLiveData.postValue(fetchFavoritesUseCase.fetchFavorites())
         showLoading(false)
     }
 }

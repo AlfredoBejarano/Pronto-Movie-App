@@ -15,6 +15,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         ViewModule::class,
+        MediaModule::class,
         ViewModelModule::class,
         DataSourceModule::class,
         AndroidInjectionModule::class,
@@ -28,6 +29,7 @@ interface AppComponent {
 
         @BindsInstance
         fun application(app: Application): Builder
+        fun mediaModule(module: MediaModule): Builder
         fun dataSourceModule(module: DataSourceModule): Builder
     }
 

@@ -8,10 +8,6 @@ object EventManager {
     val playFavoriteSoundLiveData = mPlayFavoriteSoundLiveData as LiveData<Unit>
     fun requestFavoriteSoundPlay() = mPlayFavoriteSoundLiveData.postValue(Unit)
 
-    private val mRequestNextPageLiveData = MutableLiveData<Unit>()
-    val requestNextPageLiveData = mRequestNextPageLiveData as LiveData<Unit>
-    fun requestNextPage() = mRequestNextPageLiveData.postValue(Unit)
-
     private val mShowLoadingLiveData = MutableLiveData<Boolean>()
     val showLoadingLiveData = mShowLoadingLiveData as LiveData<Boolean>
     fun showLoading(showLoading: Boolean) = mShowLoadingLiveData.postValue(showLoading)
