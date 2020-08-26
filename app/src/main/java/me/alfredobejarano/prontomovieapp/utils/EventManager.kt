@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 object EventManager {
-    private val mPlayFavoriteSoundLiveData = MutableLiveData<Unit>()
-    val playFavoriteSoundLiveData = mPlayFavoriteSoundLiveData as LiveData<Unit>
-    fun requestFavoriteSoundPlay() = mPlayFavoriteSoundLiveData.postValue(Unit)
+    private val mErrorLiveData = MutableLiveData<String>()
+    val errorLiveData = mErrorLiveData as LiveData<String>
+    fun showError(error: Throwable?) = mErrorLiveData.postValue(error?.localizedMessage)
 
     private val mShowLoadingLiveData = MutableLiveData<Boolean>()
     val showLoadingLiveData = mShowLoadingLiveData as LiveData<Boolean>

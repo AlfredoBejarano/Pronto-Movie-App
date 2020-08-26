@@ -15,7 +15,6 @@ import kotlinx.coroutines.Job
 import me.alfredobejarano.prontomovieapp.databinding.FragmentMovieListBinding
 import me.alfredobejarano.prontomovieapp.injection.ViewModelFactory
 import me.alfredobejarano.prontomovieapp.model.local.Movie
-import me.alfredobejarano.prontomovieapp.utils.EventManager
 import me.alfredobejarano.prontomovieapp.utils.viewBinding
 import me.alfredobejarano.prontomovieapp.view.adapter.MovieListAdapter
 import me.alfredobejarano.prontomovieapp.view.adapter.MovieListAdapter.MovieViewHolder
@@ -98,7 +97,6 @@ abstract class BaseListFragment : Fragment() {
             createMovieListAdapter(newMovies)
         }
         showEmptyListState(newMovies.isEmpty())
-        EventManager.showLoading(false)
     }
 
     /**
@@ -122,8 +120,10 @@ abstract class BaseListFragment : Fragment() {
      */
     private fun updateFavorites(position: Int, item: Movie) =
         viewModel.reportFavoriteMovie(item).observe(viewLifecycleOwner, Observer {
-            mediaPlayer.start()
-            onItemClick(position, item)
+            it?.run {
+                mediaPlayer.start()
+                onItemClick(position, item)
+            }
         })
 
     /**
