@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import me.alfredobejarano.prontomovieapp.R
 import me.alfredobejarano.prontomovieapp.databinding.ActivityMainBinding
 import me.alfredobejarano.prontomovieapp.utils.EventManager
@@ -20,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
         subscribeToEvents()
+        binding.mainBottomNavigationView.setupWithNavController(findNavController(R.id.main_fragment_container))
     }
 
     private fun subscribeToEvents() = EventManager.run {

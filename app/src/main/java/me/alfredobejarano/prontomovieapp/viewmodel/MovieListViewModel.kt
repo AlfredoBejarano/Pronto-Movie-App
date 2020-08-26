@@ -7,6 +7,7 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import me.alfredobejarano.prontomovieapp.domain.FetchFavoriteMovieListUseCase
 import me.alfredobejarano.prontomovieapp.domain.GetMovieListUseCase
 import me.alfredobejarano.prontomovieapp.domain.UpdateMovieUseCase
 import me.alfredobejarano.prontomovieapp.model.local.Movie
@@ -18,7 +19,8 @@ import javax.inject.Inject
  */
 class MovieListViewModel @Inject constructor(
     private val updateMovieUseCase: UpdateMovieUseCase,
-    private val getMoviesListUseCase: GetMovieListUseCase
+    private val getMoviesListUseCase: GetMovieListUseCase,
+    private val fetchFavoritesUseCase: FetchFavoriteMovieListUseCase
 ) : ViewModel() {
     private var movies = emptyList<Movie>()
 
@@ -39,6 +41,14 @@ class MovieListViewModel @Inject constructor(
         }
 
     fun reportFavoriteMovie(movie: Movie) = liveData(IO) {
+        showLoading(true)
         emit(updateMovieUseCase.updateMovie(movie))
+        showLoading(false)
+    }
+
+    fun getFavorites() = liveData(IO) {
+        showLoading(true)
+        emit(fetchFavoritesUseCase.fetchFavorites())
+        showLoading(false)
     }
 }

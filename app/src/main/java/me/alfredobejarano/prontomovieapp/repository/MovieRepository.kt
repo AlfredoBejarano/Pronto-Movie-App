@@ -42,5 +42,7 @@ class MovieRepository @Inject constructor(
         else -> getRemoteMovies()
     }
 
+    suspend fun getFavoriteMovies() = localDataSource.readFavorites()
+
     suspend fun updateMovie(movie: Movie) = localDataSource.createOrUpdate(movie)
 }

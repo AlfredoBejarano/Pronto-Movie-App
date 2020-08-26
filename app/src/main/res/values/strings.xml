@@ -2,4 +2,5 @@
     <string name="app_name">Pronto Movie App</string>
     <string name="movies_title">Movies</string>
     <string name="favorites_title">Favorites</string>
+    <string name="favorites_empty">Your favorites list is empty</string>
 </resources>

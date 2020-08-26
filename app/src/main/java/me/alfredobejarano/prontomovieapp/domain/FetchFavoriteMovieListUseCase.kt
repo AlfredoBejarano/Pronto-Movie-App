@@ -1,12 +1,12 @@
 package me.alfredobejarano.prontomovieapp.domain
 
-import me.alfredobejarano.prontomovieapp.model.local.Movie
+import me.alfredobejarano.prontomovieapp.repository.MovieRepository
 import javax.inject.Inject
 
 /**
  * GetMovieListUseCase
  */
-class FetchFavoriteMovieListUseCase @Inject constructor() {
-    suspend fun fetchFavorites(movies: List<Movie>) = movies.filter { it.isFavorite }
+class FetchFavoriteMovieListUseCase @Inject constructor(private val repository: MovieRepository) {
+    suspend fun fetchFavorites() = repository.getFavoriteMovies()
 
 }

@@ -47,6 +47,11 @@ class MovieListAdapter(
     fun updateMovieAtPosition(viewHolder: MovieViewHolder?, movie: Movie) =
         viewHolder?.updateIcon(movie)
 
+    fun removeItemAtPosition(position: Int) {
+        movies = movies.toMutableList().apply { removeAt(position) }
+        notifyItemRemoved(position)
+    }
+
     class MovieDiffCallback(
         private val oldMovies: List<Movie>,
         private val newMovies: List<Movie>

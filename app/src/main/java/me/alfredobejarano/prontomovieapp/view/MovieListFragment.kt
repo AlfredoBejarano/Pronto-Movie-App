@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,7 +29,7 @@ class MovieListFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private var updateListJob: Job? = null
-    private val viewModel by viewModels<MovieListViewModel> { viewModelFactory }
+    private val viewModel by activityViewModels<MovieListViewModel> { viewModelFactory }
     private val binding: FragmentMovieListBinding by viewBinding(FragmentMovieListBinding::inflate)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,9 +49,7 @@ class MovieListFragment : Fragment() {
         viewModel.movieListLiveData.observe(viewLifecycleOwner, Observer {
             it?.run { updateMovieList(binding.movieListRecyclerView.adapter, this) }
         })
-
         requestNextPageLiveData.observe(viewLifecycleOwner, Observer { getMovies(true) })
-
         getMovies()
     }
 

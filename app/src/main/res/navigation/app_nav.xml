@@ -10,4 +10,9 @@
         android:name="me.alfredobejarano.prontomovieapp.view.MovieListFragment"
         android:label="MovieListFragment"
         tools:layout="@layout/fragment_movie_list" />
+    <fragment
+        android:id="@+id/favoriteListFragment"
+        android:name="me.alfredobejarano.prontomovieapp.view.FavoriteListFragment"
+        android:label="FavoriteListFragment"
+        tools:layout="@layout/fragment_favorite_list" />
 </navigation>
