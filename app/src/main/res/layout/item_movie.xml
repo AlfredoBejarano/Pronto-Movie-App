@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="movie"
+            type="me.alfredobejarano.prontomovieapp.model.local.Movie" />
+    </data>
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/Base.CardView"
+        app:cardBackgroundColor="?android:attr/colorBackground"
+        app:cardUseCompatPadding="true"
+        tools:layout_width="344dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/image_view_movie_poster"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/movie_item_poster_height"
+                android:contentDescription="@{movie.title}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/text_view_movie_title"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/movie_item_margin_horizontal"
+                android:layout_marginTop="@dimen/movie_item_title_margin_top"
+                android:layout_marginEnd="@dimen/movie_item_margin_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/image_view_movie_poster"
+                tools:text="Title" />
+
+            <ImageView
+                android:id="@+id/image_view_movie_favorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/movie_item_icon_margin"
+                android:layout_marginTop="@dimen/movie_item_icon_margin"
+                android:layout_marginEnd="@dimen/movie_item_margin_horizontal"
+                android:layout_marginBottom="@dimen/movie_item_icon_margin"
+                android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@{movie.title}"
+                android:src="@{movie.favorite ? @drawable/ic_favorite_border_black_24dp : @drawable/ic_favorite_black_24dp}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_view_movie_title"
+                tools:src="@drawable/ic_favorite_border_black_24dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>
