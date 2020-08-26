@@ -22,6 +22,7 @@ import me.alfredobejarano.prontomovieapp.utils.EventManager
  */
 class MovieListAdapter(
     private var movies: List<Movie>,
+    private val onLastItem: () -> Unit = { EventManager.requestNextPage() },
     private val onMovieFavoriteClicked: (Int, Movie) -> Unit
 ) : RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>() {
 
@@ -29,6 +30,7 @@ class MovieListAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MovieViewHolder(
         ItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false),
+        onLastItem,
         onMovieFavoriteClicked
     )
 
@@ -47,11 +49,6 @@ class MovieListAdapter(
     fun updateMovieAtPosition(viewHolder: MovieViewHolder?, movie: Movie) =
         viewHolder?.updateIcon(movie)
 
-    fun removeItemAtPosition(position: Int) {
-        movies = movies.toMutableList().apply { removeAt(position) }
-        notifyItemRemoved(position)
-    }
-
     class MovieDiffCallback(
         private val oldMovies: List<Movie>,
         private val newMovies: List<Movie>
@@ -69,6 +66,7 @@ class MovieListAdapter(
 
     class MovieViewHolder(
         private val binding: ItemMovieBinding,
+        private val onLastItem: () -> Unit,
         private val onMovieFavoriteClicked: (Int, Movie) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int, item: Movie, maxItems: Int) = binding.run {
@@ -77,7 +75,7 @@ class MovieListAdapter(
                 onMovieFavoriteClicked(position, item.apply { isFavorite = !isFavorite })
             }
             binding.root.startAnimation(loadAnimation(itemView.context, slide_in_left))
-            if (position == maxItems) EventManager.requestNextPage()
+            if (position == maxItems) onLastItem()
         }
 
         fun updateIcon(movie: Movie) = binding.imageViewMovieFavorite.run {

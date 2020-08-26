@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.android.support.AndroidSupportInjection
 import me.alfredobejarano.prontomovieapp.databinding.FragmentFavoriteListBinding
 import me.alfredobejarano.prontomovieapp.injection.ViewModelFactory
-import me.alfredobejarano.prontomovieapp.model.local.Movie
 import me.alfredobejarano.prontomovieapp.utils.EventManager
 import me.alfredobejarano.prontomovieapp.utils.viewBinding
 import me.alfredobejarano.prontomovieapp.view.adapter.MovieListAdapter
@@ -40,25 +39,22 @@ class FavoriteListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.favoritesList.layoutManager = LinearLayoutManager(requireContext())
-        viewModel.getFavorites().observe(viewLifecycleOwner, Observer {
-            if (it.isNullOrEmpty()) {
-                binding.emptyListMessage.visibility = View.VISIBLE
-            } else {
-                binding.emptyListMessage.visibility = View.GONE
-                binding.favoritesList.adapter = MovieListAdapter(it, ::onMovieClick)
-            }
-        })
+        getFavorites()
     }
 
-    private fun onMovieClick(position: Int, movie: Movie) =
-        viewModel.reportFavoriteMovie(movie).observe(viewLifecycleOwner, Observer {
-            (binding.favoritesList.adapter as? MovieListAdapter)?.run {
-                removeItemAtPosition(position)
-                EventManager.requestFavoriteSoundPlay()
-                binding.emptyListMessage.visibility = if (itemCount == 0) {
-                    View.VISIBLE
-                } else {
-                    View.GONE
+    private fun getFavorites(): Unit =
+        viewModel.getFavorites().observe(viewLifecycleOwner, Observer {
+            if (it.isNullOrEmpty()) {
+                binding.favoritesList.visibility = View.GONE
+                binding.emptyListMessage.visibility = View.VISIBLE
+            } else {
+                binding.favoritesList.visibility = View.VISIBLE
+                binding.emptyListMessage.visibility = View.GONE
+                binding.favoritesList.adapter = MovieListAdapter(it, {}) { _, movie ->
+                    viewModel.reportFavoriteMovie(movie).observe(viewLifecycleOwner, Observer {
+                        EventManager.requestFavoriteSoundPlay()
+                        getFavorites()
+                    })
                 }
             }
         })
