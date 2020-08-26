@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Base.CardView"
-        app:cardBackgroundColor="?android:attr/colorBackground"
+        app:cardBackgroundColor="?android:attr/textColorTertiaryInverse"
         app:cardUseCompatPadding="true"
         tools:layout_width="344dp">
 
@@ -22,15 +22,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/image_view_movie_poster"
+                image_url="@{movie.poster}"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/movie_item_poster_height"
+                android:background="?android:attr/textColorTertiary"
                 android:contentDescription="@{movie.title}"
+                app:actualImageResource="@drawable/ic_local_movies_black_24dp"
+                app:actualImageScaleType="centerCrop"
+                app:failureImage="@drawable/ic_local_movies_black_24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:background="@android:color/darker_gray" />
+                app:placeholderImage="@drawable/ic_local_movies_black_24dp" />
 
             <TextView
                 android:id="@+id/text_view_movie_title"
@@ -40,6 +45,7 @@
                 android:layout_marginStart="@dimen/movie_item_margin_horizontal"
                 android:layout_marginTop="@dimen/movie_item_title_margin_top"
                 android:layout_marginEnd="@dimen/movie_item_margin_horizontal"
+                android:text="@{movie.title}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/image_view_movie_poster"
@@ -55,7 +61,7 @@
                 android:layout_marginBottom="@dimen/movie_item_icon_margin"
                 android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="@{movie.title}"
-                android:src="@{movie.favorite ? @drawable/ic_favorite_border_black_24dp : @drawable/ic_favorite_black_24dp}"
+                android:src="@{movie.favorite ? @drawable/ic_favorite_black_24dp : @drawable/ic_favorite_border_black_24dp}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_view_movie_title"

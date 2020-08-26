@@ -8,7 +8,8 @@ import me.alfredobejarano.prontomovieapp.BuildConfig
 import me.alfredobejarano.prontomovieapp.datasource.local.CacheDataBase
 import me.alfredobejarano.prontomovieapp.datasource.local.CacheManager
 import me.alfredobejarano.prontomovieapp.datasource.local.MovieDao
-import me.alfredobejarano.prontomovieapp.datasource.remote.TheMovideDbApiService
+import me.alfredobejarano.prontomovieapp.datasource.remote.TheMoviesDBApiAuthInterceptor
+import me.alfredobejarano.prontomovieapp.datasource.remote.TheMoviesDbApiService
 import me.alfredobejarano.prontomovieapp.model.MovieListResultObjectToMovieMapper
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -25,6 +26,10 @@ import javax.inject.Singleton
 class DataSourceModule(private val application: Application) {
     private val gsonConverterFactory by lazy { GsonConverterFactory.create(Gson()) }
 
+    private val authInterceptor by lazy {
+        TheMoviesDBApiAuthInterceptor()
+    }
+
     private val httpLoggingInterceptor by lazy {
         HttpLoggingInterceptor().apply {
             level = if (BuildConfig.DEBUG) {
@@ -37,6 +42,7 @@ class DataSourceModule(private val application: Application) {
 
     private val okHttpClient by lazy {
         OkHttpClient.Builder()
+            .addInterceptor(authInterceptor)
             .addInterceptor(httpLoggingInterceptor)
             .build()
     }
@@ -55,8 +61,8 @@ class DataSourceModule(private val application: Application) {
 
     @Provides
     @Singleton
-    fun provideTheMovieDbApiService(): TheMovideDbApiService =
-        retrofitClient.create(TheMovideDbApiService::class.java)
+    fun provideTheMovieDbApiService(): TheMoviesDbApiService =
+        retrofitClient.create(TheMoviesDbApiService::class.java)
 
     @Provides
     @Singleton

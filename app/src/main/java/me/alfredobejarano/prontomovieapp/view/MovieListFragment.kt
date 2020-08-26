@@ -1,6 +1,7 @@
 package me.alfredobejarano.prontomovieapp.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,16 +46,19 @@ class MovieListFragment : Fragment() {
         getMovies()
     }
 
-    private fun updateMovieList(adapter: RecyclerView.Adapter<*>?, newMovies: List<Movie>) =
+    private fun updateMovieList(adapter: RecyclerView.Adapter<*>?, newMovies: List<Movie>) {
         (adapter as? MovieListAdapter)?.updateMovies(newMovies)?.let {
             updateListJob = it
         } ?: run {
             createMovieListAdapter(newMovies)
         }
+        binding.movieListSwipeRefreshLayout.isRefreshing = false
+    }
 
     private fun createMovieListAdapter(movies: List<Movie>) {
         binding.movieListRecyclerView.adapter = MovieListAdapter(movies) { movie ->
             movie.apply { isFavorite = !isFavorite }
+            Log.d("Movie", movie.poster)
         }
     }
 

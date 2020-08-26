@@ -2,6 +2,7 @@ package me.alfredobejarano.prontomovieapp
 
 import android.app.Application
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.imagepipeline.core.ImagePipelineConfig
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import me.alfredobejarano.prontomovieapp.injection.Injector
