@@ -6,8 +6,6 @@ import me.alfredobejarano.prontomovieapp.viewmodel.MovieListViewModel
 
 /**
  * FavoriteListFragment
- *
- * @author (c) AlfredoBejarano - alfredo.corona@rappi.com
  */
 class FavoriteListFragment : BaseListFragment() {
 

@@ -5,8 +5,6 @@ import com.facebook.drawee.view.SimpleDraweeView
 
 /**
  * BindingAdapter
- *
- * @author (c) AlfredoBejarano - alfredo.corona@rappi.com
  */
 class BindingAdapter {
     companion object {
