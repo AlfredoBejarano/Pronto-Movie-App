@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.coroutines.Job
@@ -43,8 +43,7 @@ class MovieListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = binding.run {
         super.onViewCreated(view, savedInstanceState)
 
-        movieListRecyclerView.layoutManager =
-            GridLayoutManager(requireContext(), MOVIE_LIST_GRID_SPAN)
+        movieListRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         movieListSwipeRefreshLayout.setOnRefreshListener { getMovies() }
 
         viewModel.movieListLiveData.observe(viewLifecycleOwner, Observer {
@@ -98,9 +97,5 @@ class MovieListFragment : Fragment() {
             updateListJob?.cancel()
         }
         updateListJob = null
-    }
-
-    private companion object {
-        const val MOVIE_LIST_GRID_SPAN = 2
     }
 }

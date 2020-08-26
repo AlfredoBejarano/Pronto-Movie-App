@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import me.alfredobejarano.prontomovieapp.domain.GetMovieListUseCase
 import me.alfredobejarano.prontomovieapp.domain.UpdateMovieUseCase
 import me.alfredobejarano.prontomovieapp.model.local.Movie
+import me.alfredobejarano.prontomovieapp.utils.EventManager.showLoading
 import javax.inject.Inject
 
 /**
@@ -26,6 +27,7 @@ class MovieListViewModel @Inject constructor(
 
     fun getMovieList(includeAdultMovies: Boolean = false, nextPage: Boolean = false) =
         viewModelScope.launch(IO) {
+            showLoading(true)
             val newMovieList = getMoviesListUseCase.getMovieList(includeAdultMovies, nextPage)
             movies = if (nextPage) {
                 movies.toMutableList().apply { addAll(newMovieList) }
@@ -33,6 +35,7 @@ class MovieListViewModel @Inject constructor(
                 newMovieList
             }
             _movieListLiveData.postValue(movies)
+            showLoading(false)
         }
 
     fun reportFavoriteMovie(movie: Movie) = liveData(IO) {

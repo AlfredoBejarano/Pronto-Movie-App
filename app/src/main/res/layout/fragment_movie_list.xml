@@ -9,7 +9,9 @@
         android:id="@+id/movie_list_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:itemCount="3"
+        android:paddingStart="@dimen/movie_item_icon_margin"
+        android:paddingEnd="@dimen/movie_item_icon_margin"
+        tools:itemCount="5"
         tools:listitem="@layout/item_movie" />
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

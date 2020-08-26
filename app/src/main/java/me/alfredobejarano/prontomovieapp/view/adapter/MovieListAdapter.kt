@@ -1,6 +1,6 @@
 package me.alfredobejarano.prontomovieapp.view.adapter
 
-import android.R.anim.fade_in
+import android.R.anim.slide_in_left
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils.loadAnimation
@@ -71,7 +71,7 @@ class MovieListAdapter(
             imageViewMovieFavorite.setOnClickListener {
                 onMovieFavoriteClicked(position, item.apply { isFavorite = !isFavorite })
             }
-            binding.root.startAnimation(loadAnimation(itemView.context, fade_in))
+            binding.root.startAnimation(loadAnimation(itemView.context, slide_in_left))
             if (position == maxItems) EventManager.requestNextPage()
         }
 
