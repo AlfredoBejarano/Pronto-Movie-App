@@ -8,7 +8,7 @@ import me.alfredobejarano.prontomovieapp.BuildConfig
 import me.alfredobejarano.prontomovieapp.datasource.local.CacheDataBase
 import me.alfredobejarano.prontomovieapp.datasource.local.CacheManager
 import me.alfredobejarano.prontomovieapp.datasource.local.MovieDao
-import me.alfredobejarano.prontomovieapp.datasource.remote.TheMoviesDBApiAuthInterceptor
+import me.alfredobejarano.prontomovieapp.datasource.remote.TheMoviesDbApiInterceptor
 import me.alfredobejarano.prontomovieapp.datasource.remote.TheMoviesDbApiService
 import me.alfredobejarano.prontomovieapp.model.MovieListResultObjectToMovieMapper
 import okhttp3.OkHttpClient
@@ -27,7 +27,7 @@ class DataSourceModule(private val application: Application) {
     private val gsonConverterFactory by lazy { GsonConverterFactory.create(Gson()) }
 
     private val authInterceptor by lazy {
-        TheMoviesDBApiAuthInterceptor()
+        TheMoviesDbApiInterceptor()
     }
 
     private val httpLoggingInterceptor by lazy {

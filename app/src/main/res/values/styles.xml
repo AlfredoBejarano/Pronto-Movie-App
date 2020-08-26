@@ -1,6 +1,12 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="colorAccent">@color/colorLightBlue</item>
+        <item name="colorPrimaryDark">@color/colorDarkBlue</item>
+        <item name="android:textColorSecondaryInverse">@color/colorBlue</item>
+        <item name="android:textColorTertiaryInverse">@color/colorLightBlueInactive</item>
+        <item name="android:navigationBarColor">@color/colorDarkBlue</item>
+        <item name="android:colorBackground">@color/colorDarkBlue</item>
     </style>
 </resources>

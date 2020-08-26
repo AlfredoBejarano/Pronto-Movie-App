@@ -9,7 +9,7 @@ import java.util.Locale
 /**
  * TheMoviesDbApiInterceptor
  */
-class TheMoviesDBApiAuthInterceptor : Interceptor {
+class TheMoviesDbApiInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response = chain.run {
         proceed(request().newBuilder().apply {
             url(addQueryParamsToURL(request().url.newBuilder()))

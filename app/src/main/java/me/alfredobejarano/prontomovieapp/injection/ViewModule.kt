@@ -2,6 +2,7 @@ package me.alfredobejarano.prontomovieapp.injection
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import me.alfredobejarano.prontomovieapp.view.FavoriteListFragment
 import me.alfredobejarano.prontomovieapp.view.MainActivity
 import me.alfredobejarano.prontomovieapp.view.MovieListFragment
 
@@ -15,4 +16,7 @@ abstract class ViewModule {
 
     @ContributesAndroidInjector
     abstract fun contributeMovieListFragment(): MovieListFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeFavoriteListFragment(): FavoriteListFragment
 }

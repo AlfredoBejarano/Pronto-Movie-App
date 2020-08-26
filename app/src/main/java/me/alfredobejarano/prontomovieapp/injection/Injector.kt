@@ -8,6 +8,7 @@ object Injector {
 
     private fun createComponent(app: Application) = DaggerAppComponent.builder()
         .application(app)
+        .mediaModule(MediaModule(app))
         .dataSourceModule(DataSourceModule(app))
         .build()
 
