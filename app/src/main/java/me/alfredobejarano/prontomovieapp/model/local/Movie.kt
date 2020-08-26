@@ -20,4 +20,6 @@ data class Movie(
     val isAdult: Boolean = false,
     val popularity: Double = 0.0,
     val isFavorite: Boolean = false
-)
+) : Comparable<Movie> {
+    override fun compareTo(other: Movie) = if (id == other.id) 0 else -1
+}
