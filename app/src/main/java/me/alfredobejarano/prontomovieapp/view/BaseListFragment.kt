@@ -5,14 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.coroutines.Job
+import me.alfredobejarano.prontomovieapp.databinding.FragmentMovieListBinding
 import me.alfredobejarano.prontomovieapp.injection.ViewModelFactory
 import me.alfredobejarano.prontomovieapp.model.local.Movie
 import me.alfredobejarano.prontomovieapp.utils.EventManager
@@ -25,7 +25,7 @@ import javax.inject.Inject
 /**
  * BaseListFragment
  */
-abstract class BaseListFragment<V : ViewBinding> : Fragment() {
+abstract class BaseListFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
@@ -33,28 +33,16 @@ abstract class BaseListFragment<V : ViewBinding> : Fragment() {
     lateinit var mediaPlayer: MediaPlayer
 
     private var updateListJob: Job? = null
-    private val binding by viewBinding(::buildViewBinding)
+    private val binding by viewBinding(FragmentMovieListBinding::inflate)
     private val viewModel: MovieListViewModel by activityViewModels { viewModelFactory }
-
-    /**
-     * Returns the view that will display the movie items.
-     */
-    abstract fun getRecyclerView(binding: V): RecyclerView
-
-    /**
-     * Returns the view that notifies the user that an empty list was received.
-     */
-    abstract fun getEmptyListMessageView(binding: V): View
-
-    /**
-     * Builds the ViewBinding object for this fragment class.
-     */
-    abstract fun buildViewBinding(inflater: LayoutInflater): V
 
     /**
      * Defines the adapter function to be called to update the RecyclerView with new items.
      */
     abstract fun movieListOperation(viewModel: MovieListViewModel, nextPage: Boolean = false): Job
+
+    @StringRes
+    abstract fun emptyListMessageResource(): Int
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +54,10 @@ abstract class BaseListFragment<V : ViewBinding> : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getRecyclerView(binding).layoutManager = LinearLayoutManager(requireContext())
+        binding.run {
+            movieListRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+            emptyListMessage.setText(emptyListMessageResource())
+        }
         observeMovieListChanges()
         getMovies()
     }
@@ -90,12 +81,13 @@ abstract class BaseListFragment<V : ViewBinding> : Fragment() {
     }
 
     private fun showEmptyListState(emptyList: Boolean) = binding.run {
-        getRecyclerView(this).visibility = if (emptyList) View.GONE else View.VISIBLE
-        getEmptyListMessageView(this).visibility = if (emptyList) View.VISIBLE else View.GONE
+        movieListRecyclerView.visibility = if (emptyList) View.GONE else View.VISIBLE
+        emptyListMessage.visibility = if (emptyList) View.VISIBLE else View.GONE
     }
 
     private fun createMovieListAdapter(movies: List<Movie>) {
-        getRecyclerView(binding).adapter = MovieListAdapter(movies, ::onLastItem, ::updateFavorites)
+        binding.movieListRecyclerView.adapter =
+            MovieListAdapter(movies, ::onLastItem, ::updateFavorites)
     }
 
     private fun updateFavorites(position: Int, item: Movie) =
@@ -111,8 +103,7 @@ abstract class BaseListFragment<V : ViewBinding> : Fragment() {
         updateListJob = null
     }
 
-    protected fun getMovieListAdapter() =
-        getRecyclerView(binding).adapter as? MovieListAdapter
+    protected fun getMovieListAdapter() = binding.movieListRecyclerView.adapter as? MovieListAdapter
 
     protected open fun onLastItem() = Unit
 
@@ -123,5 +114,5 @@ abstract class BaseListFragment<V : ViewBinding> : Fragment() {
     }
 
     protected fun getViewHolderAtPosition(position: Int) =
-        getRecyclerView(binding).findViewHolderForAdapterPosition(position) as? MovieViewHolder
+        binding.movieListRecyclerView.findViewHolderForAdapterPosition(position) as? MovieViewHolder
 }

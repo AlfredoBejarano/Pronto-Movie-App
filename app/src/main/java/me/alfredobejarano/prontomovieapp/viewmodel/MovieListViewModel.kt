@@ -23,7 +23,6 @@ class MovieListViewModel @Inject constructor(
     private val fetchFavoritesUseCase: FetchFavoriteMovieListUseCase
 ) : ViewModel() {
     private var movies = emptyList<Movie>()
-
     private val _movieListLiveData = MutableLiveData<List<Movie>>()
     val movieListLiveData = _movieListLiveData as LiveData<List<Movie>>
 
