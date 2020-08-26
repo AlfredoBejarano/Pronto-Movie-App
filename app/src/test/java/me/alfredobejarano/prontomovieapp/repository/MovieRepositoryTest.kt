@@ -15,7 +15,7 @@ import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
-// Mockito marks TheMovieDbApiService.getMovies function as an stub, this runner will silence that warning.
+// Mockito marks TheMovieDbApiService.getMovies function as a stub, this runner will silence that warning.
 @RunWith(MockitoJUnitRunner.Silent::class)
 class MovieRepositoryTest {
     @Mock

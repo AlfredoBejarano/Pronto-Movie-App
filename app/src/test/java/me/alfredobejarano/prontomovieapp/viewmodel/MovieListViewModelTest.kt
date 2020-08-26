@@ -16,7 +16,8 @@ import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.junit.MockitoJUnitRunner
 
-@RunWith(MockitoJUnitRunner::class)
+// Mockito marks MovieRepository.page property as a stub, this runner will silence that warning.
+@RunWith(MockitoJUnitRunner.Silent::class)
 class MovieListViewModelTest {
     @get:Rule
     val taskExecutorRule = InstantTaskExecutorRule()
