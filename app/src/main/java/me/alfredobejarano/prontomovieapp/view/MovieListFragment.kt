@@ -1,7 +1,6 @@
 package me.alfredobejarano.prontomovieapp.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +16,7 @@ import me.alfredobejarano.prontomovieapp.injection.ViewModelFactory
 import me.alfredobejarano.prontomovieapp.model.local.Movie
 import me.alfredobejarano.prontomovieapp.utils.viewBinding
 import me.alfredobejarano.prontomovieapp.view.adapter.MovieListAdapter
+import me.alfredobejarano.prontomovieapp.view.adapter.MovieListAdapter.MovieViewHolder
 import me.alfredobejarano.prontomovieapp.viewmodel.MovieListViewModel
 import javax.inject.Inject
 
@@ -43,7 +43,10 @@ class MovieListFragment : Fragment() {
         movieListRecyclerView.layoutManager =
             GridLayoutManager(requireContext(), MOVIE_LIST_GRID_SPAN)
         movieListSwipeRefreshLayout.setOnRefreshListener { getMovies() }
-        getMovies()
+        viewModel.movieListLiveData.observe(viewLifecycleOwner, Observer {
+            it?.run { updateMovieList(binding.movieListRecyclerView.adapter, this) }
+        })
+        updateListJob = getMovies()
     }
 
     private fun updateMovieList(adapter: RecyclerView.Adapter<*>?, newMovies: List<Movie>) {
@@ -56,15 +59,24 @@ class MovieListFragment : Fragment() {
     }
 
     private fun createMovieListAdapter(movies: List<Movie>) {
-        binding.movieListRecyclerView.adapter = MovieListAdapter(movies) { movie ->
-            movie.apply { isFavorite = !isFavorite }
-            Log.d("Movie", movie.poster)
-        }
+        binding.movieListRecyclerView.adapter = MovieListAdapter(movies, ::onMovieIconClick)
     }
 
-    private fun getMovies() = viewModel.getMovieList().observe(viewLifecycleOwner, Observer {
-        it?.run { updateMovieList(binding.movieListRecyclerView.adapter, this) }
-    })
+    private fun onMovieIconClick(position: Int, movie: Movie) =
+        viewModel.reportFavoriteMovie(movie).observe(viewLifecycleOwner, Observer {
+            updateMovieAtPosition(position, movie)
+        })
+
+    private infix fun getMovieViewHolderAt(position: Int) =
+        binding.movieListRecyclerView.findViewHolderForAdapterPosition(position) as? MovieViewHolder
+
+    private fun updateMovieAtPosition(position: Int, movie: Movie) =
+        (binding.movieListRecyclerView.adapter as? MovieListAdapter)?.updateMovieAtPosition(
+            getMovieViewHolderAt(position),
+            movie
+        )
+
+    private fun getMovies() = viewModel.getMovieList()
 
     override fun onDestroyView() {
         super.onDestroyView()

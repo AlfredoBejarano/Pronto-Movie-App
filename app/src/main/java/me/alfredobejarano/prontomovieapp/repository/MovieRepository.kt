@@ -33,4 +33,6 @@ class MovieRepository @Inject constructor(
         } else {
             getRemoteMovies().also { remoteResult -> cacheRemoteMovies(remoteResult) }
         }
+
+    suspend fun updateMovie(movie: Movie) = localDataSource.createOrUpdate(movie)
 }

@@ -59,7 +59,6 @@
                 android:layout_marginTop="@dimen/movie_item_icon_margin"
                 android:layout_marginEnd="@dimen/movie_item_margin_horizontal"
                 android:layout_marginBottom="@dimen/movie_item_icon_margin"
-                android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="@{movie.title}"
                 android:src="@{movie.favorite ? @drawable/ic_favorite_black_24dp : @drawable/ic_favorite_border_black_24dp}"
                 app:layout_constraintBottom_toBottomOf="parent"
