@@ -14,6 +14,7 @@ import me.alfredobejarano.prontomovieapp.R.drawable.ic_favorite_black_24dp
 import me.alfredobejarano.prontomovieapp.R.drawable.ic_favorite_border_black_24dp
 import me.alfredobejarano.prontomovieapp.databinding.ItemMovieBinding
 import me.alfredobejarano.prontomovieapp.model.local.Movie
+import me.alfredobejarano.prontomovieapp.utils.EventManager
 
 /**
  * MovieListAdapter

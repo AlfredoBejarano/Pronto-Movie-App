@@ -14,6 +14,7 @@ import kotlinx.coroutines.Job
 import me.alfredobejarano.prontomovieapp.databinding.FragmentMovieListBinding
 import me.alfredobejarano.prontomovieapp.injection.ViewModelFactory
 import me.alfredobejarano.prontomovieapp.model.local.Movie
+import me.alfredobejarano.prontomovieapp.utils.EventManager
 import me.alfredobejarano.prontomovieapp.utils.viewBinding
 import me.alfredobejarano.prontomovieapp.view.adapter.MovieListAdapter
 import me.alfredobejarano.prontomovieapp.view.adapter.MovieListAdapter.MovieViewHolder
@@ -64,6 +65,7 @@ class MovieListFragment : Fragment() {
 
     private fun onMovieIconClick(position: Int, movie: Movie) =
         viewModel.reportFavoriteMovie(movie).observe(viewLifecycleOwner, Observer {
+            if (movie.isFavorite) EventManager.requestFavoriteSoundPlay()
             updateMovieAtPosition(position, movie)
         })
 
