@@ -1,5 +1,6 @@
 package me.alfredobejarano.prontomovieapp.viewmodel
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,7 +15,7 @@ import javax.inject.Inject
 /**
  * MovieListViewModel
  */
-class MovieListViewModel @Inject constructor(
+class MovieListViewModel @ViewModelInject constructor(
     private val updateMovieUseCase: UpdateMovieUseCase,
     private val getMoviesListUseCase: GetMovieListUseCase,
     private val fetchFavoritesUseCase: FetchFavoriteMovieListUseCase

@@ -1,5 +1,6 @@
 package me.alfredobejarano.prontomovieapp.view
 
+import dagger.hilt.android.AndroidEntryPoint
 import me.alfredobejarano.prontomovieapp.R
 import me.alfredobejarano.prontomovieapp.model.local.Movie
 import me.alfredobejarano.prontomovieapp.viewmodel.MovieListViewModel
@@ -7,6 +8,7 @@ import me.alfredobejarano.prontomovieapp.viewmodel.MovieListViewModel
 /**
  * MovieListFragment
  */
+@AndroidEntryPoint
 class MovieListFragment : BaseListFragment() {
 
     override fun onLastItem() = getMovies(true)

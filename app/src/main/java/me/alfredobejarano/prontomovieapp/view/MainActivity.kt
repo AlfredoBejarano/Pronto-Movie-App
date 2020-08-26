@@ -8,10 +8,12 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import me.alfredobejarano.prontomovieapp.R
 import me.alfredobejarano.prontomovieapp.databinding.ActivityMainBinding
 import me.alfredobejarano.prontomovieapp.utils.EventManager
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var errorSnackBar: Snackbar
     private lateinit var binding: ActivityMainBinding

@@ -4,6 +4,8 @@ import android.app.Application
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityRetainedComponent
 import me.alfredobejarano.prontomovieapp.BuildConfig
 import me.alfredobejarano.prontomovieapp.datasource.local.CacheDataBase
 import me.alfredobejarano.prontomovieapp.datasource.local.CacheManager
@@ -23,6 +25,7 @@ import javax.inject.Singleton
  * DataSourceModule
  */
 @Module
+@InstallIn(ActivityRetainedComponent::class)
 class DataSourceModule(private val application: Application) {
     private val gsonConverterFactory by lazy { GsonConverterFactory.create(Gson()) }
 
