@@ -73,6 +73,7 @@ class MovieListAdapter(
             imageViewMovieFavorite.setOnClickListener {
                 onMovieFavoriteClicked(position, item.apply { isFavorite = !isFavorite })
             }
+            binding.root.setOnClickListener { imageViewMovieFavorite.callOnClick() }
             binding.root.startAnimation(loadAnimation(itemView.context, slide_in_left))
             if (position == maxItems) onLastItem()
         }

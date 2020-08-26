@@ -15,6 +15,7 @@ import dagger.android.support.AndroidSupportInjection
 import kotlinx.coroutines.Job
 import me.alfredobejarano.prontomovieapp.injection.ViewModelFactory
 import me.alfredobejarano.prontomovieapp.model.local.Movie
+import me.alfredobejarano.prontomovieapp.utils.EventManager
 import me.alfredobejarano.prontomovieapp.utils.viewBinding
 import me.alfredobejarano.prontomovieapp.view.adapter.MovieListAdapter
 import me.alfredobejarano.prontomovieapp.view.adapter.MovieListAdapter.MovieViewHolder
@@ -35,7 +36,15 @@ abstract class BaseListFragment<V : ViewBinding> : Fragment() {
     private val binding by viewBinding(::buildViewBinding)
     private val viewModel: MovieListViewModel by activityViewModels { viewModelFactory }
 
+    /**
+     * Returns the view that will display the movie items.
+     */
     abstract fun getRecyclerView(binding: V): RecyclerView
+
+    /**
+     * Returns the view that notifies the user that an empty list was received.
+     */
+    abstract fun getEmptyListMessageView(binding: V): View
 
     /**
      * Builds the ViewBinding object for this fragment class.
@@ -68,16 +77,22 @@ abstract class BaseListFragment<V : ViewBinding> : Fragment() {
     }
 
     private fun observeMovieListChanges() =
-        viewModel.movieListLiveData.observe(viewLifecycleOwner, Observer {
-            it?.run { updateMovieList(getMovieListAdapter(), it) }
-        })
+        viewModel.movieListLiveData.observe(viewLifecycleOwner, Observer(::updateMovieList))
 
-    private fun updateMovieList(adapter: RecyclerView.Adapter<*>?, newMovies: List<Movie>) =
+    private fun updateMovieList(newMovies: List<Movie>) {
         getMovieListAdapter()?.updateMovies(newMovies)?.let {
             updateListJob = it
         } ?: run {
             createMovieListAdapter(newMovies)
         }
+        showEmptyListState(newMovies.isEmpty())
+        EventManager.showLoading(false)
+    }
+
+    private fun showEmptyListState(emptyList: Boolean) = binding.run {
+        getRecyclerView(this).visibility = if (emptyList) View.GONE else View.VISIBLE
+        getEmptyListMessageView(this).visibility = if (emptyList) View.VISIBLE else View.GONE
+    }
 
     private fun createMovieListAdapter(movies: List<Movie>) {
         getRecyclerView(binding).adapter = MovieListAdapter(movies, ::onLastItem, ::updateFavorites)
@@ -85,6 +100,7 @@ abstract class BaseListFragment<V : ViewBinding> : Fragment() {
 
     private fun updateFavorites(position: Int, item: Movie) =
         viewModel.reportFavoriteMovie(item).observe(viewLifecycleOwner, Observer {
+            mediaPlayer.start()
             onItemClick(position, item)
         })
 
