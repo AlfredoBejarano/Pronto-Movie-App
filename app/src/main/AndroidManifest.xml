@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.alfredobejarano.prontomovieapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".ProntoMovieApplication"
         android:allowBackup="true"

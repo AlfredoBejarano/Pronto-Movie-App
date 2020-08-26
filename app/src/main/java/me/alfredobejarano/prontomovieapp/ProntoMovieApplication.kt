@@ -12,7 +12,7 @@ import javax.inject.Inject
  */
 class ProntoMovieApplication : Application(), HasAndroidInjector {
     @Inject
-    private lateinit var injector: DispatchingAndroidInjector<Any>
+    lateinit var injector: DispatchingAndroidInjector<Any>
 
     override fun androidInjector() = injector
 
