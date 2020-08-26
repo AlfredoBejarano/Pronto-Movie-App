@@ -2,7 +2,7 @@ package me.alfredobejarano.prontomovieapp.datasource.local
 
 import android.content.Context
 import android.content.SharedPreferences
-import java.util.*
+import java.util.Date
 import java.util.concurrent.TimeUnit.HOURS
 import java.util.concurrent.TimeUnit.MILLISECONDS
 

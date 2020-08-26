@@ -24,5 +24,7 @@ abstract class CacheDataBase : RoomDatabase() {
             Room.databaseBuilder(ctx, CacheDataBase::class.java, DATABASE_NAME)
                 .fallbackToDestructiveMigration()
                 .build()
+
+        fun getInstance(ctx: Context) = INSTANCE ?: createInstance(ctx)
     }
 }

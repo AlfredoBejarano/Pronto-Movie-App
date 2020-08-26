@@ -6,7 +6,7 @@ import retrofit2.http.GET
 /**
  * TheMovideDbApiService
  */
-interface TheMovideDbApiService {
+interface TheMoviesDbApiService {
     /**
      * Retrieves a list of the most popular movies.
      */

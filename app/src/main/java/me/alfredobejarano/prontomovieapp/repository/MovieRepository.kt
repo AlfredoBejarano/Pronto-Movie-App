@@ -2,7 +2,7 @@ package me.alfredobejarano.prontomovieapp.repository
 
 import me.alfredobejarano.prontomovieapp.datasource.local.CacheManager
 import me.alfredobejarano.prontomovieapp.datasource.local.MovieDao
-import me.alfredobejarano.prontomovieapp.datasource.remote.TheMovideDbApiService
+import me.alfredobejarano.prontomovieapp.datasource.remote.TheMoviesDbApiService
 import me.alfredobejarano.prontomovieapp.model.MovieListResultObjectToMovieMapper
 import me.alfredobejarano.prontomovieapp.model.local.Movie
 import javax.inject.Inject
@@ -13,7 +13,7 @@ import javax.inject.Inject
 class MovieRepository @Inject constructor(
     private val localDataSource: MovieDao,
     private val cacheDataSource: CacheManager,
-    private val remoteDataSource: TheMovideDbApiService,
+    private val remoteDataSource: TheMoviesDbApiService,
     private val mapper: MovieListResultObjectToMovieMapper
 ) {
     private suspend fun getRemoteMovies() =

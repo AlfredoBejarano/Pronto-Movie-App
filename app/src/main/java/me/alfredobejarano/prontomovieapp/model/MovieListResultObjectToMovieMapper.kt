@@ -11,6 +11,7 @@ class MovieListResultObjectToMovieMapper {
     fun map(input: MovieListResultObject) = input.run {
         Movie(
             id = id ?: 0,
+            isFavorite = false,
             isAdult = adult ?: true,
             title = title.orEmpty(),
             popularity = popularity ?: 0.0,
