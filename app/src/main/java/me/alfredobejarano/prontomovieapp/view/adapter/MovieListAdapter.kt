@@ -12,8 +12,6 @@ import me.alfredobejarano.prontomovieapp.model.local.Movie
 
 /**
  * MovieListAdapter
- *
- * @author (c) AlfredoBejarano - alfredo.corona@rappi.com
  */
 class MovieListAdapter(
     private var movies: List<Movie>,

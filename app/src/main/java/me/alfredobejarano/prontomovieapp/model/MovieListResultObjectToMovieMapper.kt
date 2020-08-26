@@ -6,8 +6,6 @@ import me.alfredobejarano.prontomovieapp.model.remote.MovieListResultObject
 
 /**
  * MovieListResultObjectToMovieMapper
- *
- * @author (c) AlfredoBejarano - alfredo.corona@rappi.com
  */
 class MovieListResultObjectToMovieMapper {
     fun map(input: MovieListResultObject) = input.run {
