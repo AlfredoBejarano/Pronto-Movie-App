@@ -9,7 +9,7 @@ Demo app that uses [TheMovideDB V3 API](https://developers.themoviedb.org/3/gett
 
 - This app offers a clean, layered architecture while keeping it simple, the `model` classes are transparent across the architecture, the `repository` classes provide a clean API and a single source of truth from all the app `data sources` for the rest of the layers in the app. The `ViewModel` classes serves as intermediaries between the `view` (UI Controllers) and the `repository` layers, provides clean and immutable observation via `LiveData` and reacts accordingly to the app's lifecycle.
 
-- It also uses the good practices accepted from Google, such as _Dependency Injection_ using **Dagger** and using the _Observation_ pattern. The app architecture is **M**odel**V**iew**V**iew**M**odel (_MVVM from now on_).
+- It also uses the good practices accepted from Google, such as _Dependency Injection_ and using the _Observation_ pattern. The app architecture is **M**odel**V**iew**V**iew**M**odel (_MVVM from now on_).
 
 - This project is written 100% natively using **Kotlin**, Kotlin is a concise and safe language interoperable with Java. This makes Kotlin a powerful tool for android development. It is also the oficial language for Android.
 
@@ -19,7 +19,8 @@ As said before, **MovieList app** is based upon the Sunflower MVVM architecture 
 
 ![app-arch](https://i.ibb.co/Y0pLk65/Arquitectura-MVVM.jpg)
 
-All the layers dependencies are satisfied using *Dependency Injection* (_DI from now on_) using **Dagger**.
+All the layers dependencies are satisfied using *Dependency Injection* (_DI from now on_), instead of using **Dagger**, this branch contains the same code injected using
+**Hilt**, the new recommended way to perform dependency injection.
 
 The idea of separate layers and module is to maintain the **single responsibility principle**.
 
@@ -57,7 +58,7 @@ too bloated and become untestable. Use case classes are bit sized pieces of code
 boilerplate code, An Use case class can use other use case classes to do the business logic.
 
 ## Injection
-The injection package isn't meant to be a layer at all, it contains all the classes that help Dagger build the app dependency graph.
+The injection package isn't meant to be a layer at all, it contains all the classes that help Hilt build the app dependency graph.
 
 ## Model
 The model package contains all the model DTO classes that defines data for the app. Models are divided in two:
