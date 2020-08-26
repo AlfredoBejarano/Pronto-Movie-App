@@ -23,7 +23,6 @@ import javax.inject.Inject
 /**
  * BaseListFragment
  */
-@AndroidEntryPoint
 abstract class BaseListFragment : Fragment() {
     @Inject
     lateinit var mediaPlayer: MediaPlayer
