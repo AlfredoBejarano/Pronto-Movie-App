@@ -19,8 +19,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
-        errorSnackBar = Snackbar.make(binding.root, "", Snackbar.LENGTH_LONG)
         setContentView(binding.root)
+        errorSnackBar = Snackbar.make(binding.root, "", Snackbar.LENGTH_LONG)
         subscribeToEvents()
         binding.mainBottomNavigationView.setupWithNavController(findNavController(R.id.main_fragment_container))
     }
