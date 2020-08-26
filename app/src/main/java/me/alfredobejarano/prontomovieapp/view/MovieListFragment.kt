@@ -1,7 +1,6 @@
 package me.alfredobejarano.prontomovieapp.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,8 +42,7 @@ class MovieListFragment : Fragment() {
 
     private fun createMovieListAdapter(movies: List<Movie>) {
         binding.movieListRecyclerView.adapter = MovieListAdapter(movies) { movie ->
-            // TODO - Add movie to favorites.
-            Log.d("Movie", movie.title)
+            movie.apply { isFavorite = !isFavorite }
         }
     }
 
